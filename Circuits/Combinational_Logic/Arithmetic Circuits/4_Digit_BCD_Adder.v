@@ -1,34 +1,15 @@
-module top_module( 
+module top_module ( 
     input [15:0] a, b,
     input cin,
     output cout,
-    output [15:0] sum 
-  );
-    
-    wire [3:0] cout_temp;
-    
-    bcd_fadd u_bcd_fadd(
-        .a(a[3:0]),
-        .b(b[3:0]),
-        .cin(cin),
-        .cout(cout_temp[0]),
-        .sum(sum[3:0])
-    );
+    output [15:0] sum );
 
-    generate
-    	genvar i;
-    	for(i=1; i<4; i++) 
-    	begin
-    		bcd_fadd u_bcd_fadd(
-    				.a(a[4*i+3 : 4*i]),
-    				.b(b[4*i+3 : 4*i]),
-    				.cin(cout_temp[i-1]),
-    				.cout(cout_temp[i]),
-    				.sum(sum[4*i+3 : 4*i])
-    			);	
-    	end
-    endgenerate
+    wire c1, c2, c3; // Intermediate carry wires
 
-    assign cout = cout_temp[3];
-    
+    // Instantiate 4 BCD full adders
+    bcd_fadd add0 (a[3:0],   b[3:0],   cin,  c1, sum[3:0]);
+    bcd_fadd add1 (a[7:4],   b[7:4],   c1,   c2, sum[7:4]);
+    bcd_fadd add2 (a[11:8],  b[11:8],  c2,   c3, sum[11:8]);
+    bcd_fadd add3 (a[15:12], b[15:12], c3,  cout, sum[15:12]);
+
 endmodule
