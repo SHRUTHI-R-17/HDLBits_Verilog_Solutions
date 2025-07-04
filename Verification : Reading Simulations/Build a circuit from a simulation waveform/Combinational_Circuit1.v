@@ -3,7 +3,5 @@ module top_module (
     input b,
     output q 
   );
-
-    assign q = a & b;\
-
+    assign q = a & b;
 endmodule
