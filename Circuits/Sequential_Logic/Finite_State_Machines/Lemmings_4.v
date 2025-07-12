@@ -1,6 +1,6 @@
 module top_module(
     input clk,
-    input areset,    // Freshly brainwashed Lemmings walk left.
+    input areset,    
     input bump_left,
     input bump_right,
     input ground,
